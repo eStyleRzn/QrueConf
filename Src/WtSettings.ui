@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>WtSettings</class>
+ <widget class="QWidget" name="WtSettings">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>343</width>
+    <height>408</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0" colspan="2">
+    <widget class="QGroupBox" name="boxHID">
+     <property name="title">
+      <string>Video and sound devices</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="5" column="0">
+       <widget class="QLabel" name="lblSpeaker">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Choose speakers:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="lblCamera">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Choose camera:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="lblMicrophone">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Choose microphone:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QComboBox" name="cmbCamera"/>
+      </item>
+      <item row="3" column="1">
+       <widget class="QComboBox" name="cmbMicrophone"/>
+      </item>
+      <item row="5" column="1">
+       <widget class="QComboBox" name="cmbSpeaker"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="2">
+    <widget class="QGroupBox" name="boxConnect">
+     <property name="title">
+      <string>Connection settings</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="editLogin"/>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="lblServer">
+        <property name="text">
+         <string>Host:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="editHost"/>
+      </item>
+      <item row="3" column="0" colspan="2">
+       <widget class="QPushButton" name="btnSubmitHost">
+        <property name="text">
+         <string>Connect</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="lblPassword">
+        <property name="text">
+         <string>Password:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="lblLogin">
+        <property name="text">
+         <string>Login:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="editPassword"/>
+      </item>
+      <item row="4" column="0" colspan="2">
+       <widget class="QPushButton" name="btnRestart">
+        <property name="text">
+         <string>Restart</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>cmbCamera</tabstop>
+  <tabstop>cmbMicrophone</tabstop>
+  <tabstop>cmbSpeaker</tabstop>
+  <tabstop>editHost</tabstop>
+  <tabstop>editLogin</tabstop>
+  <tabstop>editPassword</tabstop>
+  <tabstop>btnSubmitHost</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>
