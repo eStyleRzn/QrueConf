@@ -80,6 +80,48 @@ void VideoConfProvider::createConference(const QString& name, int mode, const QS
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+void VideoConfProvider::startScreenCapture(const QString& id)
+{
+  obj_->startScreenCapture(id);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void VideoConfProvider::stopScreenCapture()
+{
+  obj_->stopScreenCapture();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void VideoConfProvider::getSelfieBroadcast()
+{
+  obj_->getSelfieBroadcast();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void VideoConfProvider::getDisplayNameById(const QString& str)
+{
+  obj_->getDisplayNameById(str);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void VideoConfProvider::getMonitorsInfo()
+{
+  obj_->getMonitorsInfo();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void VideoConfProvider::getSettings()
+{
+  obj_->getSettings();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void VideoConfProvider::getSystemInfo()
+{
+  obj_->getSystemInfo();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 void VideoConfProvider::axEvent(const QString& name, int argc, void* argv)
 {
   Q_UNUSED(argc);
@@ -131,7 +173,7 @@ void VideoConfProvider::axVideoMatrixChanged(const QString&)
 //----------------------------------------------------------------------------------------------------------------------
 void VideoConfProvider::axXNotify(const QString& s)
 {
-  Q_UNUSED(s)
+  qDebug() << __FUNCTION__ << s;
 //  processServerNotification(s);
 }
 
@@ -167,6 +209,13 @@ void VideoConfProvider::axXCommandExecution(const QString& cmdName, const QStrin
     ServerNotifyProcessor::getAbook(allData, out);
     emit onGetAddressBook(AddressBook::Shared::create(out));
   }
+  else if (cmdName == ServerNotifyProcessor::enumStrVal<ServerNotifyProcessor::EnumICallX>(ServerNotifyProcessor::EnumICallX::getMonitorsInfo))
+  {
+    using T = QSharedPointer<QJsonArray>;
+    T out = T::create(QJsonArray{});
+    ServerNotifyProcessor::getMonitorsInfo(allData, *out.data());
+    emit onGetMonitorsInfo(out);
+  }
   else
   {
     qDebug() << __FUNCTION__ << cmdName << allData;
@@ -193,5 +242,5 @@ void VideoConfProvider::axXTerminate()
 //----------------------------------------------------------------------------------------------------------------------
 void VideoConfProvider::onAxException(int code, const QString& source, const QString& desc, const QString& help)
 {
-  qDebug() << code << source << desc << help;
+  qDebug() << __FUNCTION__  << code << source << desc << help;
 }

@@ -12,9 +12,9 @@ WtSettings::WtSettings(VideoConfProvider& parent)
 {
   ui->setupUi(this);
 
-  ui->editHost->setText("192.168.40.11:4307");
-  ui->editLogin->setText("o.chongov@rui8y.trueconf.name");
-  ui->editPassword->setText("123456AB");
+  ui->editHost->setText("192.168.69.147:4307");
+  ui->editLogin->setText("test3");
+  ui->editPassword->setText("123456aB");
 
   connect(ui->cmbCamera, SIGNAL(currentIndexChanged(int)), this, SLOT(onCameraChanged(int)));
   connect(ui->cmbMicrophone, SIGNAL(currentIndexChanged(int)), this, SLOT(onMicChanged(int)));

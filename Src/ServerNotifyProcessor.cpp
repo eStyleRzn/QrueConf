@@ -34,6 +34,21 @@ void ServerNotifyProcessor::getAbook(const QString& input, QJsonArray& output)
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+void ServerNotifyProcessor::getMonitorsInfo(const QString& input, QJsonArray& output)
+{
+  QJsonObject obj;
+  if (validateInput(input, obj))
+  {
+    using ICallX = EnumICallX;
+    using CallXAttrs = EnumCallXAttrs;
+
+    QJsonObject::const_iterator it;
+
+    output = obj.find(enumStrVal<CallXAttrs>(CallXAttrs::monitors)).value().toArray();
+  }
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 ServerNotifyProcessor::ServerNotifyProcessor(QObject *parent)
   : _Base(parent)
 {

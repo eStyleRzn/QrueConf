@@ -15,10 +15,14 @@ class ServerNotifyProcessor : public QObject
   Q_OBJECT
 public:
   // ITrueConfCallX Interface functions enumeration
-  enum class EnumICallX { getAbook };
+  enum class EnumICallX
+  {
+    getAbook,
+    getMonitorsInfo
+  };
   Q_ENUM(EnumICallX)
 
-  enum class EnumCallXAttrs { ok, abook, event, peerId, peerDn };
+  enum class EnumCallXAttrs { ok, abook, event, peerId, peerDn, monitors };
   Q_ENUM(EnumCallXAttrs)
 
   template<typename T>
@@ -31,6 +35,7 @@ public:
 
   static void incomingCall(const QString& data, QString& callerID, QString& callerInfo);
   static void getAbook(const QString& input, QJsonArray& output);
+  static void getMonitorsInfo(const QString& input, QJsonArray& output);
 
 private:
   static bool validateInput(const QString& data, QJsonObject& out);

@@ -33,7 +33,7 @@ MOC_DIR     = $${DESTDIR}/gen/moc
 RCC_DIR     = $${DESTDIR}/gen/res
 UI_DIR      = $${DESTDIR}/gen/uic
 
-#TYPELIBS = $$system(dumpcpp -n TrueConf -o $${DESTDIR}/gen/TrueConf_CallX $$PWD/Res/CallX/TrueConf_CallX.ocx)
+TYPELIBS = $$system(dumpcpp -n TrueConf -o $$PWD/Res/CallX/TrueConf_CallX $$PWD/Res/CallX/TrueConf_CallX.ocx)
 
 INCLUDEPATH += $$PWD/Res/CallX
 
@@ -58,7 +58,8 @@ SOURCES += $$PWD/Src/main.cpp \
     $$PWD/Src/AddressBook.cpp \
     $$PWD/Src/DlgContacts.cpp \
     $$PWD/Src/DlgIncomingCall.cpp \
-    $$PWD/Src/DlgCreateConf.cpp
+    $$PWD/Src/DlgCreateConf.cpp \
+    $$PWD/Src/DlgShareScreen.cpp
 
 HEADERS += $$PWD/Src/MainWindow.h \
     $$PWD/Res/CallX/TrueConf_CallX.h \
@@ -69,7 +70,8 @@ HEADERS += $$PWD/Src/MainWindow.h \
     $$PWD/Src/AddressBook.h \
     $$PWD/Src/DlgContacts.h \
     $$PWD/Src/DlgIncomingCall.h \
-    $$PWD/Src/DlgCreateConf.h
+    $$PWD/Src/DlgCreateConf.h \
+    $$PWD/Src/DlgShareScreen.h
 
 FORMS += $$PWD/Src/MainWindow.ui \
     $$PWD/Src/WtSettings.ui \
@@ -77,7 +79,8 @@ FORMS += $$PWD/Src/MainWindow.ui \
     $$PWD/Src/VideoConfProvider.ui \
     $$PWD/Src/DlgContacts.ui \
     $$PWD/Src/DlgIncomingCall.ui \
-    $$PWD/Src/DlgCreateConf.ui
+    $$PWD/Src/DlgCreateConf.ui \
+    $$PWD/Src/DlgShareScreen.ui
 
 # This must be always the last string in the file, since it prints the final values
 include($$PWD/CommonMessages.pri)

@@ -8,6 +8,7 @@
 #include "WtStartConf.h"
 #include "DlgIncomingCall.h"
 #include "DlgCreateConf.h"
+#include "DlgShareScreen.h"
 
 //======================================================================================================================
 using namespace TrueConf;
@@ -45,33 +46,7 @@ MainWindow::MainWindow(QWidget *parent) :
 //    wtVideo_->getConfUsers();
 //  });
 
-  if (!connect(wtVideo_, &VideoConfProvider::onCreated, [this]()
-  {
-               qDebug() << "VideoConfProvider library path is: " << wtVideo_->libPath();
-
-//               wtVideo_->cameraModes();
-
-               dockSettings_ = new QDockWidget(this);
-               wtSettings_ = new WtSettings(*wtVideo_);
-               dockSettings_->setWidget(wtSettings_);
-               addDockWidget(Qt::LeftDockWidgetArea, dockSettings_);
-
-               connect(wtSettings_, &WtSettings::serverConnect, this, &MainWindow::connectToServer);
-
-               dockStartConf_ = new QDockWidget(this);
-               wtStartConf_ = new WtStartConf(*wtVideo_);
-               dockStartConf_->setWidget(wtStartConf_);
-               addDockWidget(Qt::TopDockWidgetArea, dockStartConf_);
-
-               wtVideo_->show();
-
-               auto menu = menuBar();
-               menu->addAction("Create conference", this, SLOT(onCreateConference()));
-               menu->setEnabled(false);
-}))
-  {
-    Q_ASSERT_X(false, __FUNCTION__, "Logic error");
-  }
+  connect(wtVideo_, SIGNAL(onCreated()), this, SLOT(onAxLoaded()));
 
   setCentralWidget(wtVideo_);
 }
@@ -99,5 +74,59 @@ void MainWindow::onCreateConference()
 {
   DlgCreateConf dlg(*wtVideo_);
   dlg.exec();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void MainWindow::onScreenSharing()
+{
+  DlgShareScreen dlg(this, wtVideo_);
+  dlg.exec();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void MainWindow::onAxLoaded()
+{
+  qDebug() << "VideoConfProvider library path is: " << wtVideo_->libPath();
+
+//  wtVideo_->getDisplayNameById("1");
+//  wtVideo_->getSettings();
+//  wtVideo_->getSystemInfo();
+
+  if (!windowsCreated_)
+  {
+    createWindowsAfterStart();
+    windowsCreated_ = true;
+  }
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+//void MainWindow::onShareScreen()
+//{
+//  DlgShareScreen dlg(this, wtVideo_);
+//  dlg.exec();
+//}
+
+//----------------------------------------------------------------------------------------------------------------------
+void MainWindow::createWindowsAfterStart()
+{
+  dockSettings_ = new QDockWidget(this);
+  wtSettings_ = new WtSettings(*wtVideo_);
+  dockSettings_->setWidget(wtSettings_);
+  addDockWidget(Qt::LeftDockWidgetArea, dockSettings_);
+
+  connect(wtSettings_, &WtSettings::serverConnect, this, &MainWindow::connectToServer);
+
+  dockStartConf_ = new QDockWidget(this);
+  wtStartConf_ = new WtStartConf(*wtVideo_);
+  dockStartConf_->setWidget(wtStartConf_);
+  addDockWidget(Qt::TopDockWidgetArea, dockStartConf_);
+
+  wtVideo_->show();
+
+  auto menu = menuBar();
+  menu->addAction("Create conference", this, SLOT(onCreateConference()));
+  actScreenSharing_ = menu->addAction("Screen sharing", this, SLOT(onScreenSharing()));
+//  connect(actScreenSharing_, SIGNAL(toggled(bool)), this, SLOT(onShareScreen()));
+  menu->setEnabled(false);
 }
 

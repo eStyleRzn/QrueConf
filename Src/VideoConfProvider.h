@@ -18,7 +18,7 @@ public:
   VideoConfProvider(QWidget *parent = 0, Qt::WindowFlags f = 0);
   virtual ~VideoConfProvider();
 
-public slots:  
+public slots:
   void connectToServer(const QString& serverStr) { obj_->connectToServer(serverStr); }
 //  void disconnectFromServer();
 
@@ -59,6 +59,15 @@ public slots:
   void createConference(const QString& name, int mode, const QStringList& users);
   void getConfUsers() { obj_->getIdListRequestInvite(); }
 
+  void startScreenCapture(const QString& id);
+  void stopScreenCapture();
+
+  void getSelfieBroadcast();
+  void getDisplayNameById(const QString&);
+  void getMonitorsInfo();
+  void getSettings();
+  void getSystemInfo();
+
 signals:
   void onCreated();
   void onServerConnected();
@@ -71,6 +80,7 @@ signals:
   void onConfStopped(const QString&);
 
   void onGetAddressBook(AddressBook::Shared);
+  void onGetMonitorsInfo(const QSharedPointer<QJsonArray>&);
 
   void onIncomingCall(QString& callerID, QString& callerInfo);
 
