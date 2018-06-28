@@ -5,6 +5,7 @@
 
 #include "ui_DlgShareScreen.h"
 
+class QJsonValueRef;
 class VideoConfProvider;
 
 //======================================================================================================================
@@ -12,22 +13,33 @@ class VideoConfProvider;
 class DlgShareScreen : public QDialog
 {
   using _Base = QDialog;
+  using TCScreensInfo = QSharedPointer<QJsonArray>;
   Q_OBJECT
 public:
   DlgShareScreen(QWidget* parent, VideoConfProvider* wtVideo_);
   virtual ~DlgShareScreen();
 
+  int selectedScreen() const;
+
+signals:
+  void selectDisplay(bool);
+
 private slots:
-  void onModeChanged(int);
-  void onMonitors(const QSharedPointer<QJsonArray>&);
+  void onScreens(const QSharedPointer<QJsonArray>&);
+  void onScreenThumbClicked();
+  void onScreenSelected(int);
 
 private:
   // Disable copying
   DlgShareScreen(const DlgShareScreen&) = delete;
   DlgShareScreen& operator=(const DlgShareScreen&) = delete;
 
+  QScreen* getScreen(const QJsonValueRef&) const;
+
   Ui::DlgShareScreen ui_;
   VideoConfProvider* wtVideo_;
+  TCScreensInfo screensInfo_;
+  int selectedScreen_ = 0;
 };
 
 

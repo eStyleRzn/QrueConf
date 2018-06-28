@@ -48,6 +48,19 @@ ExtraPlatforms.path += $${DESTDIR}/platforms
 INSTALLS += ExtraLibs \
     ExtraPlatforms \
 
+HEADERS += $$PWD/Src/MainWindow.h \
+    $$PWD/Res/CallX/TrueConf_CallX.h \
+    $$PWD/Src/WtSettings.h \
+    $$PWD/Src/WtStartConf.h \
+    $$PWD/Src/VideoConfProvider.h \
+    $$PWD/Src/ServerNotifyProcessor.h \
+    $$PWD/Src/AddressBook.h \
+    $$PWD/Src/DlgContacts.h \
+    $$PWD/Src/DlgIncomingCall.h \
+    $$PWD/Src/DlgCreateConf.h \
+    $$PWD/Src/DlgShareScreen.h \
+    $$PWD/Src/ScreenshotThumb.h
+
 SOURCES += $$PWD/Src/main.cpp \
     $$PWD/Src/MainWindow.cpp \
     $$PWD/Res/CallX/TrueConf_CallX.cpp \
@@ -59,19 +72,8 @@ SOURCES += $$PWD/Src/main.cpp \
     $$PWD/Src/DlgContacts.cpp \
     $$PWD/Src/DlgIncomingCall.cpp \
     $$PWD/Src/DlgCreateConf.cpp \
-    $$PWD/Src/DlgShareScreen.cpp
-
-HEADERS += $$PWD/Src/MainWindow.h \
-    $$PWD/Res/CallX/TrueConf_CallX.h \
-    $$PWD/Src/WtSettings.h \
-    $$PWD/Src/WtStartConf.h \
-    $$PWD/Src/VideoConfProvider.h \
-    $$PWD/Src/ServerNotifyProcessor.h \
-    $$PWD/Src/AddressBook.h \
-    $$PWD/Src/DlgContacts.h \
-    $$PWD/Src/DlgIncomingCall.h \
-    $$PWD/Src/DlgCreateConf.h \
-    $$PWD/Src/DlgShareScreen.h
+    $$PWD/Src/DlgShareScreen.cpp \
+    $$PWD/Src/ScreenshotThumb.cpp
 
 FORMS += $$PWD/Src/MainWindow.ui \
     $$PWD/Src/WtSettings.ui \
@@ -82,5 +84,9 @@ FORMS += $$PWD/Src/MainWindow.ui \
     $$PWD/Src/DlgCreateConf.ui \
     $$PWD/Src/DlgShareScreen.ui
 
+RESOURCES += \
+    $$PWD/Res/res.qrc
+
 # This must be always the last string in the file, since it prints the final values
 include($$PWD/CommonMessages.pri)
+

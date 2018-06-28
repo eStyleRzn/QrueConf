@@ -1,0 +1,18 @@
+ScreenshotThumb
+{
+  padding: 1px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: transparent;
+  background-color: black;
+}
+
+ScreenshotThumb[selected="true"]
+{
+  border-color: #00cc77;
+}
+
+ScreenshotThumb[selected="false"]
+{
+  border-color: transparent;
+}

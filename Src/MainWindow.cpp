@@ -80,7 +80,16 @@ void MainWindow::onCreateConference()
 void MainWindow::onScreenSharing()
 {
   DlgShareScreen dlg(this, wtVideo_);
-  dlg.exec();
+  if (QDialog::Accepted == dlg.exec())
+  {
+    wtVideo_->startScreenCapture(QString::number(dlg.selectedScreen() + 1));
+
+    QWidgetList widgets = qApp->topLevelWidgets();
+    for (auto&& wt : widgets)
+    {
+      wt->setWindowState(Qt::WindowMinimized);
+    }
+  }
 }
 
 //----------------------------------------------------------------------------------------------------------------------
