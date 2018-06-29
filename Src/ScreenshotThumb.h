@@ -19,9 +19,10 @@ public slots:
 
 signals:
   void clicked();
-  void selected(int screenIndex);
+  void selected(int screenIndex, QRect rect);
 
 protected:
+    virtual void resizeEvent(QResizeEvent *event);
     void mousePressEvent(QMouseEvent* event);
 
 private:
@@ -31,6 +32,8 @@ private:
 
   bool selected_ = false;
   int screenIndex_ = 0;
+  QRect screenRect_;
+  QPixmap img_;
 };
 
 #endif // SCREENSHOTTHUMB_H

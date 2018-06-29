@@ -82,13 +82,19 @@ void MainWindow::onScreenSharing()
   DlgShareScreen dlg(this, wtVideo_);
   if (QDialog::Accepted == dlg.exec())
   {
-    wtVideo_->startScreenCapture(QString::number(dlg.selectedScreen() + 1));
+    int index = 0;
+    QRect rect;
+
+    dlg.selectedScreen(index, rect);
+    wtVideo_->startScreenCapture(QString::number(index + 1));
 
     QWidgetList widgets = qApp->topLevelWidgets();
     for (auto&& wt : widgets)
     {
       wt->setWindowState(Qt::WindowMinimized);
     }
+
+    drawScreenFrame(rect);
   }
 }
 
@@ -137,5 +143,32 @@ void MainWindow::createWindowsAfterStart()
   actScreenSharing_ = menu->addAction("Screen sharing", this, SLOT(onScreenSharing()));
 //  connect(actScreenSharing_, SIGNAL(toggled(bool)), this, SLOT(onShareScreen()));
   menu->setEnabled(false);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void MainWindow::drawScreenFrame(const QRect rect)
+{
+  captureFrame_.reset(new QFrame());
+  captureFrame_->setFrameStyle(QFrame::Box | QFrame::Plain);
+  captureFrame_->setWindowFlags(Qt::FramelessWindowHint | Qt::Tool | Qt::WindowTransparentForInput | Qt::WindowDoesNotAcceptFocus | Qt::WindowStaysOnTopHint);
+
+  captureFrame_->setGeometry(rect); // Just some fixed values to test
+
+  // Set a solid green thick border.
+  captureFrame_->setObjectName("captureFrame");
+  captureFrame_->setStyleSheet("#captureFrame {border: 5px solid red;}");
+
+  static const int pxBorderWidth = 5;
+
+  // IMPORTANT: A QRegion's coordinates are relative to the widget it's used in. This is not documented.
+  QRegion outerFrameRegion( 0, 0, rect.width(), rect.height());
+  QRegion innerFrameRegion = outerFrameRegion.subtracted(QRegion(pxBorderWidth,
+                                                                 pxBorderWidth,
+                                                                 rect.width() - (pxBorderWidth*2),
+                                                                 rect.height() - (pxBorderWidth*2)));
+
+  captureFrame_->setMask(innerFrameRegion);
+  captureFrame_->setWindowOpacity(0.5);
+  captureFrame_->show();
 }
 

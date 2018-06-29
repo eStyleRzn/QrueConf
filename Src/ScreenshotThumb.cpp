@@ -3,13 +3,16 @@
 #include <QVariant>
 #include <QStyle>
 #include <QScreen>
+#include <QResizeEvent>
+//#include <QDebug>
 
 //======================================================================================================================
 ScreenshotThumb::ScreenshotThumb(QScreen& screen, int screenIndex, QWidget* parent)
   : _Base(parent)
   , screenIndex_(screenIndex)
 {
-  QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+  // Отшибаем ресайз родительского виджета по размерам этого виджета.
+  QSizePolicy sizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
   sizePolicy.setHorizontalStretch(0);
   sizePolicy.setVerticalStretch(0);
   sizePolicy.setHeightForWidth(this->sizePolicy().hasHeightForWidth());
@@ -17,14 +20,8 @@ ScreenshotThumb::ScreenshotThumb(QScreen& screen, int screenIndex, QWidget* pare
   // setFrameShape(QFrame::Box);
   setAlignment(Qt::AlignCenter);
 
-  const auto r = screen.geometry();
-  auto pixmap = screen.grabWindow(0, r.x(), r.y(), r.width(), r.height());
-
-  // Размеры картинки
-  static const int imageHeight  = 200;
-  static const int imageWidth   = 350;
-
-  setPixmap(pixmap.scaled(QSize(imageWidth, imageHeight)));
+  screenRect_ = screen.geometry();
+  img_ = screen.grabWindow(0, screenRect_.x(), screenRect_.y(), screenRect_.width(), screenRect_.height());
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -40,10 +37,20 @@ bool ScreenshotThumb::select(bool set)
 
   if (ok)
   {
-    emit selected(screenIndex_);
+    emit selected(screenIndex_, screenRect_);
   }
 
   return ok;
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ScreenshotThumb::resizeEvent(QResizeEvent* event)
+{
+//  qDebug() << __FUNCTION__ << event->size() << rect().size() << contentsRect() << frameSize();
+  _Base::resizeEvent(event);
+
+  setPixmap(img_.scaled(contentsRect().width(),
+                        contentsRect().height()));
 }
 
 //----------------------------------------------------------------------------------------------------------------------

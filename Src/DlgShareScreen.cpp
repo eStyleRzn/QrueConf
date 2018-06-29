@@ -39,19 +39,24 @@ DlgShareScreen::~DlgShareScreen()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-int DlgShareScreen::selectedScreen() const
+void DlgShareScreen::selectedScreen(int& index, QRect& rect) const
 {
-  return selectedScreen_;
+  index = selectedScreen_;
+  rect = selectScreenRect_;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void DlgShareScreen::onScreens(const QSharedPointer<QJsonArray>& data)
 {
-  screensInfo_ = data;
+  // Размеры картинки
+  static const int imageHeight  = 200;
+  static const int imageWidth   = 350;
 
-  for (int i = 0; i < screensInfo_->size(); ++i)
+  screensInfo_ = data;
+  const auto screens = screensInfo_->size();
+
+  for (auto&& item : *screensInfo_)
   {
-    QJsonValueRef item = (*screensInfo_)[i];
     if (item.isObject())
     {
       auto screen = getScreen(item);
@@ -59,10 +64,10 @@ void DlgShareScreen::onScreens(const QSharedPointer<QJsonArray>& data)
       if (screen)
       {
         auto label = new ScreenshotThumb(*screen, item.toObject().value("index").toInt(), this);
-        ui_.gridLayout->addWidget(label, 0, i, 1, 1);
+        ui_.labelsLayout->addWidget(label);
 
         connect(label, SIGNAL(clicked()), this, SLOT(onScreenThumbClicked()));
-        connect(label, SIGNAL(selected(int)), this, SLOT(onScreenSelected(int)));
+        connect(label, SIGNAL(selected(int, QRect)), this, SLOT(onScreenSelected(int, QRect)));
         connect(this, SIGNAL(selectDisplay(bool)), label, SLOT(select(bool)));
 
         const auto primary = item.toObject().value("primary").toBool();
@@ -73,6 +78,16 @@ void DlgShareScreen::onScreens(const QSharedPointer<QJsonArray>& data)
         }
       }
     }
+  }
+
+  // Теперь сделаем ресайз этого окна по количеству вставленных миниатюр
+  resize(24 + (imageWidth * screens), 60 + imageHeight);
+
+  // Спозиционируем наше окно после ресайза
+  if (auto parent = parentWidget())
+  {
+    const auto parentRect = parent->geometry();
+    move(parentRect.center() - rect().center());
   }
 }
 
@@ -90,9 +105,10 @@ void DlgShareScreen::onScreenThumbClicked()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void DlgShareScreen::onScreenSelected(int s)
+void DlgShareScreen::onScreenSelected(int s, QRect rect)
 {
   selectedScreen_ = s;
+  selectScreenRect_ = rect;
 }
 
 //----------------------------------------------------------------------------------------------------------------------

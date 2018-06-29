@@ -8,6 +8,7 @@ class VideoConfProvider;
 class QDockWidget;
 class WtSettings;
 class WtStartConf;
+class QFrame;
 class MainWindow : public QMainWindow
 {
   Q_OBJECT
@@ -26,6 +27,7 @@ private slots:
 
 private:
   void createWindowsAfterStart();
+  void drawScreenFrame(const QRect);
 
   static QString host_;
   static QString user_;
@@ -40,6 +42,7 @@ private:
   VideoConfProvider* wtVideo_;
   QAction* actScreenSharing_ = false;
   bool windowsCreated_ = false;
+  QScopedPointer<QFrame> captureFrame_;
 };
 
 #endif // MAINWINDOW_H

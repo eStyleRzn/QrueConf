@@ -19,7 +19,7 @@ public:
   DlgShareScreen(QWidget* parent, VideoConfProvider* wtVideo_);
   virtual ~DlgShareScreen();
 
-  int selectedScreen() const;
+  void selectedScreen(int& index, QRect& rect) const;
 
 signals:
   void selectDisplay(bool);
@@ -27,7 +27,7 @@ signals:
 private slots:
   void onScreens(const QSharedPointer<QJsonArray>&);
   void onScreenThumbClicked();
-  void onScreenSelected(int);
+  void onScreenSelected(int, QRect);
 
 private:
   // Disable copying
@@ -40,6 +40,7 @@ private:
   VideoConfProvider* wtVideo_;
   TCScreensInfo screensInfo_;
   int selectedScreen_ = 0;
+  QRect selectScreenRect_;
 };
 
 
